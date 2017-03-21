@@ -19,15 +19,17 @@ int main(int argc, char *argv[]){
             p_file >> y;
             cout << x << ", " << y << endl;
             X += x;
-            Y += y;
+            Y += log(y);
             XY += x*y;
             X2 += x*x;
             n += 1.0;
         }
-        double a0, a1;
-        a1 = (n*XY - X*Y)/(n*X2 - X*X);
-        a0 = Y/n - a1*X/n;
-        cout << "y = (" << a0 << ") + (" << a1 << ")x" << endl;
+        double a0, beta, alpha;
+        beta = (n*XY - X*Y)/(n*X2 - X*X);
+        a0 = Y/n - beta*X/n;
+        alpha = exp(a0);
+        cout << "Ln(y) = Ln(" << alpha << ") + (" << beta << ")x" << endl;
+        cout << "y = " << alpha << " * e^(" << beta << "x)" << endl;
         p_file.clear();// Move back to beginning of the file
         p_file.seekg (0, ios::beg);
         double c_error = 0.0, avg_error = 0.0, avg = Y/n;
@@ -36,7 +38,7 @@ int main(int argc, char *argv[]){
             if(p_file.eof()) break;
             p_file >> y;
             avg_error += pow(avg - y, 2);
-            c_error += pow((y - a0 - a1*x), 2);
+            c_error += pow((y - alpha*exp(beta*x)), 2);
         }
         double std_error = sqrt(c_error/(n - 2));
         cout << "Error estandar: " << std_error << endl;
