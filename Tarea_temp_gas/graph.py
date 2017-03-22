@@ -1,53 +1,51 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-def fQT(QT):
-    return (170 - (1.6 * (10 ** -6) * (QT ** 2)))
+x = [
+    10.2,
+    11.4,
+    11.5,
+    12.5,
+    13.1,
+    13.4,
+    13.6,
+    15,
+    15.2,
+    15.3,
+    15.6,
+    16.4,
+    16.5,
+    17,
+    17.1
+]
 
-def KW1(Q1, QT):
-    return (-18.89 + (0.1277 * Q1) - (4.08 * (10 ** -5) * (Q1 ** 2))) * (fQT(QT))
+y = [
+    69.81,
+    82.75,
+    81.75,
+    80.38,
+    85.89,
+    75.32,
+    69.81,
+    78.54,
+    81.29,
+    99.2,
+    86.35,
+    110.23,
+    106.55,
+    85.5,
+    90.02
+]
 
-def KW2(Q2, QT):
-    return (-24.51 + (0.1358 * Q2) - (4.69 * (10 ** -5) * (Q2 ** 2))) * (fQT(QT))
+t = np.arange(min(x), max(x), 0.01)
+s = 37.1618 + 3.39553*t
 
-def KW3(Q3, QT):
-    return (-27.02 + (0.1380 * Q3) - (3.84 * (10 ** -5) * (Q3 ** 2))) * (fQT(QT))
+plt.plot(x, y, 'ro', label = 'Datos originales')
+# plt.plot(t, s, label = 'Regresión')
 
-def Q1(QT):
-    return (QT / 2.93243) - 75.1827
-
-def Q2(QT):
-    return (QT / 3.3708) + 20.94978
-
-def Q3(QT):
-    return (QT / 2.7599) + 54.2329
-
-def KWT(QT):
-    return KW1(Q1(QT), QT) + KW2(Q2(QT), QT) + KW3(Q3(QT), QT)
-
-QTmin = 250
-QTmin2 = 953.5755
-QTmax = 3231.2001
-KW = []
-KWT1 = []
-KWT2 = []
-KWT3 = []
-
-for qt in range(int(QTmin), int(QTmax)):
-    KW.append(KWT(qt))
-    KWT1.append(KW1(qt, qt))
-    KWT2.append(KW2(qt, qt))
-    KWT3.append(KW3(qt, qt))
-
-
-plt.plot(range(int(QTmin), int(QTmax)), KW, label = '3 turbinas')
-plt.plot(range(int(QTmin), int(QTmax)), KWT1, label = 'turbina 1')
-plt.plot(range(int(QTmin), int(QTmax)), KWT2, label = 'turbina 2')
-plt.plot(range(int(QTmin), int(QTmax)), KWT3, label = 'turbina 3')
-
-plt.xlabel('QT')
-plt.ylabel('KW')
-plt.title('4.-')
+plt.xlabel('Diferencia de Temperatura (ºC)')
+plt.ylabel('Consumo (kWh)')
+plt.title('Problema 4-13')
 plt.grid(True)
 plt.savefig("test.png")
 plt.legend()

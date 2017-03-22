@@ -26,6 +26,7 @@ void linear_regression(ifstream *p_file){
     p_file->clear();// Move back to beginning of the file
     p_file->seekg (0, ios::beg);
     double c_error = 0.0, avg_error = 0.0, avg = Y/n;
+    cout << "Average: " << avg << endl;
     while(!p_file->eof()){
         *p_file >> x;
         if(p_file->eof()) break;
@@ -33,6 +34,7 @@ void linear_regression(ifstream *p_file){
         avg_error += pow(avg - y, 2);
         c_error += pow((y - a0 - a1*x), 2);
     }
+    cout << avg_error << ":" << c_error << endl;
     double std_error = sqrt(c_error/(n - 2));
     cout << "Error estandar: " << std_error << endl;
     cout << "Coeficiente de correlacion: " << sqrt((avg_error - c_error)/avg_error) << endl;
