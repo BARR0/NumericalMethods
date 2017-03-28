@@ -2,6 +2,10 @@
     "files.associations": {
         "ostream": "cpp",
         "cmath": "cpp",
-        "initializer_list": "cpp"
+        "initializer_list": "cpp",
+        "iosfwd": "cpp",
+        "*.tcc": "cpp",
+        "fstream": "cpp",
+        "cstdlib": "cpp"
     }
 }
