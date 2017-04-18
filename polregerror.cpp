@@ -4,6 +4,36 @@
 
 using namespace std;
 
+void regression(ifstream *p_filex, ifstream *p_filey){
+    double n = 0, x, y,
+           Y = 0.0, XY = 0.0, X2Y = 0.0,
+           X = 0.0, X2 = 0.0, X3 = 0.0, X4 = 0.0;
+
+    while(!p_filex->eof()){
+        *p_filex >> x;
+        if(p_filey->eof()) break;
+        *p_filey >> y;
+
+        cout << x << ", " << y << endl;
+
+        X += x;
+        X2 += x*x;
+        X3 += pow (x, 3);
+        X4 += pow (x, 4);
+
+        Y += y;
+        XY += x*y;
+        X2Y += x*x*y;
+
+        n += 1.0;
+    }
+    
+    cout << "Ecuaciones:" << endl;
+    cout << n << "*a0 + " << X << "*a1 + " << X2 << "*a2 = " << Y << endl;
+    cout << X << "*a0 + " << X2 << "*a1 + " << X3 << "*a2 = " << XY << endl;
+    cout << X2 << "*a0 + " << X3 << "*a1 + " << X4 << "*a2 = " << X2Y << endl;
+}
+
 // Error Estandar (Grado m): sqrt(Sr/(n - (m + 1)));
 void errors(ifstream *p_filex, ifstream *p_filey, double am[], int m){
     double c_error = 0.0, x, y, n = 0.0, Y = 0.0;
