@@ -11,7 +11,7 @@ double f(double x){
 double definite_integral_left(double a, double b, int n){
     double h = (b - a)/n;
     double A = 0.0;
-    for(double i = a; i < b; i += h){
+    for(double i = a; i < b - h/2.0; i += h){ // - h/2.0 is used to fix rounding errors for even numbers
         A += f(i);
     }
     cout << "h = " << h << endl;
@@ -21,7 +21,7 @@ double definite_integral_left(double a, double b, int n){
 double definite_integral(double a, double b, int n){
     double h = (b - a)/n;
     double A = f(a) + f(b);
-    for(double i = a + h; i < b; i += h){
+    for(double i = a + h; i < b - h/2.0; i += h){ // - h/2.0 is used to fix rounding errors for even numbers
         A += 2.0*f(i);
     }
     cout << "h = " << h << endl;
