@@ -36,23 +36,106 @@ double reverse_cuadratic_interpolate(double x1, double y1, double x2, double y2,
     return xp;
 }
 
-double f(double *X, double *Y, int n){
-    if(n <= 1)
-        return Y[0];
-    return (f(X + 1, Y + 1, n - 1) - f(X, Y, n - 1))/(X[n-1] - X[0]);
+void newton_interpolate_d(double *X, double *Y, int n){
+    double **f = new double*[n];
+    for(int i = 0; i < n; ++i){
+        f[i] = new double[n];
+        f[i][i] = Y[i];
+    }
+    for(int gap = 1; gap < n; ++ gap){
+        for(int i = 0; i + gap < n; ++i){
+            f[i][i + gap] = (f[i + 1][i + gap] - f[i][i + gap - 1])/(X[i + gap] - X[i]);
+        }
+    }
+    cout << "fn(x) = ";
+    for(int i = 0; i < n; ++i){
+        cout << f[0][i];
+        for(int j = 0; j < i; ++j){
+            cout << "(x - " << X[j] << ")";
+        }
+        cout << " + ";
+    }
+    cout << "0" << endl;
+    for(int i = 0; i < n; ++i){
+        delete [] f[i];
+    }
+    delete [] f;
 }
 
-double newton_interpolate(double *X, double *Y, int n){
-    double B[n];
-    for(int i = 1; i <= n; ++i){
-        B[i] = f(X, Y, i);
-        cout << B[i] << "*(x^"<< i - 1 <<") + ";
+void newton_interpolate(double *X, double *Y, int n){
+    double f[n];
+    double R[n];
+    for(int i = 0; i < n; ++i){
+        f[i] = Y[i];
     }
+    R[0] = f[0];
+    for(int step = 1; step < n; ++step){
+        for(int i = 0; i < n - step; ++i){
+            f[i] = (f[i + 1] - f[i])/(X[i + step] - X[i]);
+        }
+        R[step] = f[0];
+    }
+    cout << "fn(x) = ";
+    for(int i = 0; i < n; ++i){
+        cout << R[i];
+        for(int j = 0; j < i; ++j){
+            cout << "(x - " << X[j] << ")";
+        }
+        cout << " + ";
+    }
+    cout << "0" << endl;
+}
+
+// void newton_interpolate(double *X, double *Y, int n){
+//     double f[n];
+//     double R[n];
+//     for(int i = 0; i < n; ++i){
+//         f[i] = Y[i];
+//     }
+//     R[0] = f[0];
+//     for(int step = 1; step < n; ++step){
+//         for(int i = 0; i < n - step; ++i){
+//             f[i] = (f[i + 1] - f[i])/(X[i + step] - X[i]);
+//         }
+//         R[step] = f[0];
+//     }
+//     cout << "fn(x) = ";
+//     for(int i = 0; i < n; ++i){
+//         cout << R[i];
+//         for(int j = 0; j < i; ++j){
+//             cout << "(x - " << X[j] << ")";
+//         }
+//         cout << " + ";
+//     }
+//     cout << "0" << endl;
+// }
+
+double lagrange_interpolate_L(double *X, int n, int i, double x){
+    double L = 1.0;
+    for(int j = 0; j < n; ++j){
+        if(j == i) continue;
+        L *= (x - X[j])/(X[i] - X[j]);
+    }
+    return L;
+}
+
+double lagrange_interpolate(double *X, double *Y, int n, double x){
+    double y = 0.0;
+    for(int i = 0; i < n; ++i){
+        y += lagrange_interpolate_L(X, n, i, x)*Y[i];
+    }
+    return y;
 }
 
 int main(){
-    int n = 5;
-    double X[n] = {0, 1, 2, 3, 4, 5};
-    double Y[n] = {0, 1, 4, 9, 16, 25};
-    cout << newton_interpolate(X, Y, n) << endl;
+    // int n = 5;
+    // double X[n] = {0, 1, 2, 3, 4, 5};
+    // double Y[n] = {0, 1, 4, 9, 16, 25};
+    int n = 3;
+    double X[n] = {1, 4, 6};
+    double Y[n] = {0, 1.386294, 1.791760};
+
+    cout << lagrange_interpolate(X, Y, n, 5) << endl;
+    newton_interpolate(X, Y, n);
+    newton_interpolate_d(X, Y, n);
 }
