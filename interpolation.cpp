@@ -128,14 +128,14 @@ double lagrange_interpolate(double *X, double *Y, int n, double x){
 }
 
 int main(){
-    // int n = 5;
-    // double X[n] = {0, 1, 2, 3, 4, 5};
-    // double Y[n] = {0, 1, 4, 9, 16, 25};
-    int n = 3;
-    double X[n] = {1, 4, 6};
-    double Y[n] = {0, 1.386294, 1.791760};
+    int n = 6;
+    double X[n] = {0, 1, 2, 3, 4, 5};
+    double Y[n] = {0, 1, 4, 9, 16, 25};
+    // int n = 3;
+    // double X[n] = {1, 4, 6};
+    // double Y[n] = {0, 1.386294, 1.791760};
 
-    cout << lagrange_interpolate(X, Y, n, 5) << endl;
+    cout << lagrange_interpolate(X, Y, n, 1.5) << endl;
     newton_interpolate(X, Y, n);
     newton_interpolate_d(X, Y, n);
 }
