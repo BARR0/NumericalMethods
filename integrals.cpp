@@ -33,7 +33,7 @@ double definite_integral(double a, double b, int n){
     return A*h/2.0;
 }
 
-double simpson_1_3(double a, double b, int n/*Not used, prevents changing main method.*/){
+double simpson_1_3(double a, double b){
     return (b - a)*(f(a) + 4.0*f((a + b)/2.0) + f(b))/6.0;
 }
 
@@ -75,12 +75,18 @@ double romberg(double a, double b){
 
 int main(int argc, char *argv[]){
     if(argc == 4){
+        double a = stod(argv[1]), b =  stod(argv[2]);
+        int n = stoi(argv[3]);
         cout << "=======================================" << endl;
-        cout << "Rect Left: " << definite_integral_left(stod(argv[1]), stod(argv[2]), stoi(argv[3])) << endl;
+        cout << "Rect Left: " << definite_integral_left(a, b, n) << endl;
         cout << "=======================================" << endl;
-        cout << "Trap: " << definite_integral(stod(argv[1]), stod(argv[2]), stoi(argv[3])) << endl;
+        cout << "Trap: " << definite_integral(a, b, n) << endl;
         cout << "=======================================" << endl;
-        cout << "Romberg: " << romberg(stod(argv[1]), stod(argv[2])) << endl;
+        cout << "Simpson 1/3: " << simpson_1_3(a, b) << endl;
+        cout << "=======================================" << endl;
+        cout << "Simpson 3/8: " << simpson_3_8(a, b, f(a), f(a + (b - a)/4.0), f(b - (b - a)/4.0), f(b)) << endl;
+        cout << "=======================================" << endl;
+        cout << "Romberg: " << romberg(a, b) << endl;
         cout << "=======================================" << endl;
     }
 }
