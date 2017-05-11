@@ -7,10 +7,12 @@ using namespace std;
 const double EPSILON = 0.0001;
 
 double f(double x){
-    return 0.2 + 25*x - 200*pow(x, 2) + 675*pow(x, 3) - 900*pow(x, 4) + 400*pow(x, 5);
+    // return 0.2 + 25*x - 200*pow(x, 2) + 675*pow(x, 3) - 900*pow(x, 4) + 400*pow(x, 5);
     // return 9.8*68.1/12.5*(1 - exp(-(12.5/68.1)*x));
     // return exp(pow(x, 2));
     // return 5;
+    // return 1.0/x;
+    return 2*x;
 }
 
 double definite_integral_left(double a, double b, int n){
@@ -41,6 +43,14 @@ double definite_integral(double a, double b, int n){
     }
     cout << "h = " << h << endl;
     return A*h/2.0;
+}
+
+double definite_integral(double *X, double *Y, int n){
+    double A = 0.0;
+    for(int i = 0; i < n - 1; ++i){
+        A += (Y[0] + Y[i + 1])*(X[i + 1] - X[i])/2.0;
+    }
+    return A;
 }
 
 double simpson_1_3(double a, double b){
