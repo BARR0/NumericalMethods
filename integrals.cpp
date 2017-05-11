@@ -23,6 +23,16 @@ double definite_integral_left(double a, double b, int n){
     return A*h;
 }
 
+double definite_integral_right(double a, double b, int n){
+    double h = (b - a)/n;
+    double A = 0.0;
+    for(double i = a + h; n > 0 /*i < b - h/2.0*/; i += h, --n){ // - h/2.0 is used to fix rounding errors for even numbers
+        A += f(i);
+    }
+    cout << "h = " << h << endl;
+    return A*h;
+}
+
 double definite_integral(double a, double b, int n){
     double h = (b - a)/n;
     double A = f(a) + f(b);
@@ -79,6 +89,8 @@ int main(int argc, char *argv[]){
         int n = stoi(argv[3]);
         cout << "=======================================" << endl;
         cout << "Rect Left: " << definite_integral_left(a, b, n) << endl;
+        cout << "=======================================" << endl;
+        cout << "Rect Right: " << definite_integral_right(a, b, n) << endl;
         cout << "=======================================" << endl;
         cout << "Trap: " << definite_integral(a, b, n) << endl;
         cout << "=======================================" << endl;
